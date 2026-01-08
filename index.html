@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Feedback System | Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌟Service Feedback System🌟</h1>
+            <p>We value your voice to improve our services</p>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="switchTab('feedback')"><i class="fas fa-paper-plane"></i> Submit Feedback</button>
+            <button class="nav-tab" onclick="switchTab('listing')"><i class="fas fa-list"></i> View History</button>
+            <button class="nav-tab" onclick="switchTab('analytics')"><i class="fas fa-chart-pie"></i> Analytics</button>
+        </div>
+
+        <div id="feedback" class="tab-content active">
+            <h2><i class="fas fa-pen-fancy"></i> Share Your Experience</h2>
+            <form id="feedbackForm">
+                <div class="form-group">
+                    <label for="serviceType">Which service did you use?</label>
+                    <select id="serviceType" required>
+                        <option value="">Select a service...</option>
+                        <option value="Consultation">Consultation</option>
+                        <option value="Delivery">Delivery</option>
+                        <option value="Installation">Installation</option>
+                        <option value="Repair">Repair</option>
+                        <option value="Support">Customer Support</option>
+                        <option value="Training">Training</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>How would you rate it?</label>
+                    <div class="star-rating" id="starRating">
+                        <span class="star" data-rating="1"><i class="fas fa-star"></i></span>
+                        <span class="star" data-rating="2"><i class="fas fa-star"></i></span>
+                        <span class="star" data-rating="3"><i class="fas fa-star"></i></span>
+                        <span class="star" data-rating="4"><i class="fas fa-star"></i></span>
+                        <span class="star" data-rating="5"><i class="fas fa-star"></i></span>
+                    </div>
+                    <input type="hidden" id="rating" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="comments">Any specific comments?</label>
+                    <textarea id="comments" placeholder="Tell us what you liked or how we can improve..."></textarea>
+                </div>
+
+                <button type="submit" class="btn">Submit Feedback <i class="fas fa-arrow-right"></i></button>
+            </form>
+        </div>
+
+        <div id="listing" class="tab-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                <h2><i class="fas fa-history"></i> Feedback History</h2>
+                <button onclick="clearData()" style="padding: 5px 15px; border: 1px solid #e53e3e; color: #e53e3e; background: white; border-radius: 5px; cursor: pointer; font-size: 0.8rem;">Clear All</button>
+            </div>
+            
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="filterService"><i class="fas fa-filter"></i> Filter by Service</label>
+                    <select id="filterService" onchange="filterFeedback()">
+                        <option value="">All Services</option>
+                        <option value="Consultation">Consultation</option>
+                        <option value="Delivery">Delivery</option>
+                        <option value="Installation">Installation</option>
+                        <option value="Repair">Repair</option>
+                        <option value="Support">Customer Support</option>
+                        <option value="Training">Training</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filterRating"><i class="fas fa-star"></i> Filter by Rating</label>
+                    <select id="filterRating" onchange="filterFeedback()">
+                        <option value="">All Ratings</option>
+                        <option value="5">5 Stars</option>
+                        <option value="4">4 Stars</option>
+                        <option value="3">3 Stars</option>
+                        <option value="2">2 Stars</option>
+                        <option value="1">1 Star</option>
+                    </select>
+                </div>
+            </div>
+            <div id="feedbackList" class="feedback-list"></div>
+        </div>
+
+        <div id="analytics" class="tab-content">
+            <h2><i class="fas fa-chart-line"></i> Analytics Dashboard</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-value" id="totalFeedback">0</div>
+                    <div class="stat-label">Total Responses</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-star"></i></div>
+                    <div class="stat-value" id="avgRating">0.0</div>
+                    <div class="stat-label">Average Rating</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-crown"></i></div>
+                    <div class="stat-value" id="topService">-</div>
+                    <div class="stat-label">Top Service</div>
+                </div>
+            </div>
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <div class="chart-title">Volume by Service</div>
+                    <canvas id="serviceChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">Satisfaction Distribution</div>
+                    <canvas id="ratingChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
